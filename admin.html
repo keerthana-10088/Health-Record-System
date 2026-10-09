@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard · Health Records System</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="top-bar">
+    <div class="logo-area">
+      <div class="logo-icon"><i class="fas fa-heartbeat"></i></div>
+      <div class="logo-text">
+        <h1>Health Records System</h1>
+        <span>Admin Console</span>
+      </div>
+    </div>
+    <nav class="nav-links">
+      <a href="admin.html" class="active"><i class="fas fa-home"></i> Home</a>
+    </nav>
+    <div class="auth-buttons" id="authButtons"></div>
+  </header>
+
+  <div class="main-container">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">
+          <i class="fas fa-user-shield" style="color:#1e8e5c;"></i>
+          Admin Dashboard
+        </h1>
+        <p class="page-subtitle">Manage all patients, their medical records, prescriptions, and lab reports.</p>
+      </div>
+      <button class="card-action-btn" id="addPatientBtn">
+        <i class="fas fa-plus"></i> Add New Patient
+      </button>
+    </div>
+
+    <div class="dashboard-grid" id="dashboardGrid">
+      <div class="dash-card">
+        <div class="card-icon icon-blue"><i class="fas fa-users"></i></div>
+        <h3>Patient Records</h3>
+        <p>View, add and manage all registered patients in the system.</p>
+        <button class="card-action-btn" id="viewPatientsBtn">
+          <i class="fas fa-eye"></i> View Patients
+        </button>
+      </div>
+
+      <div class="dash-card">
+        <div class="card-icon icon-purple"><i class="fas fa-notes-medical"></i></div>
+        <h3>Medical History</h3>
+        <p>Browse complete medical history across every patient.</p>
+        <button class="card-action-btn" id="viewHistoryBtn">
+          <i class="fas fa-history"></i> View History
+        </button>
+      </div>
+
+      <div class="dash-card">
+        <div class="card-icon icon-green"><i class="fas fa-prescription"></i></div>
+        <h3>Prescriptions</h3>
+        <p>All prescriptions issued across patients.</p>
+        <button class="card-action-btn" id="viewPrescriptionsBtn">
+          <i class="fas fa-pills"></i> View Prescriptions
+        </button>
+      </div>
+
+      <div class="dash-card">
+        <div class="card-icon icon-orange"><i class="fas fa-flask"></i></div>
+        <h3>Lab Reports</h3>
+        <p>All laboratory test reports with results.</p>
+        <button class="card-action-btn" id="viewLabsBtn">
+          <i class="fas fa-vial"></i> View Lab Reports
+        </button>
+      </div>
+    </div>
+
+    <div class="detail-section" id="detailSection" style="display:none;">
+      <div class="detail-header">
+        <div class="detail-header-left">
+          <button class="back-btn" id="backBtn">
+            <i class="fas fa-arrow-left"></i> Back to Dashboard
+          </button>
+          <h2 id="detailTitle" class="detail-title">
+            <i class="fas fa-info-circle"></i> Details
+          </h2>
+        </div>
+        <button class="card-action-btn" id="addPatientInlineBtn" style="display:none;">
+          <i class="fas fa-plus"></i> Add Patient
+        </button>
+      </div>
+      <div id="detailContent"></div>
+    </div>
+  </div>
+
+  <div class="footer">Health Records System · Admin Console</div>
+
+  <!-- MODAL 1: Add Patient -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-box">
+      <button class="modal-close" id="modalClose">&times;</button>
+      <h2>Add New Patient</h2>
+      <p>Fill in patient details and their initial record information.</p>
+      <form id="addPatientForm">
+        <div class="modal-grid">
+          <div class="form-group full">
+            <label>Full Name</label>
+            <input type="text" id="pName" required>
+          </div>
+          <div class="form-group full">
+            <label>Email</label>
+            <input type="email" id="pEmail" required>
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="text" id="pPassword" value="1234" required>
+          </div>
+          <div class="form-group">
+            <label>Age</label>
+            <input type="number" id="pAge" required>
+          </div>
+          <div class="form-group">
+            <label>Gender</label>
+            <input type="text" id="pGender" required>
+          </div>
+          <div class="form-group">
+            <label>Phone</label>
+            <input type="tel" id="pPhone" required>
+          </div>
+          <div class="form-group full">
+            <label>Initial Medical Condition</label>
+            <input type="text" id="pCondition" placeholder="e.g. Hypertension">
+          </div>
+          <div class="form-group full">
+            <label>Initial Prescription</label>
+            <input type="text" id="pPrescription" placeholder="e.g. Lisinopril 10mg">
+          </div>
+          <div class="form-group full">
+            <label>Initial Lab Test</label>
+            <input type="text" id="pLab" placeholder="e.g. Blood Pressure Check">
+          </div>
+        </div>
+        <button type="submit" class="form-btn" style="margin-top:1.5rem;">
+          <i class="fas fa-save"></i> Save Patient
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 2: Manage / Add Record to Existing Patient -->
+  <div class="modal-overlay" id="recordModal">
+    <div class="modal-box">
+      <button class="modal-close" id="recordModalClose">&times;</button>
+      <h2 id="recordModalTitle">Add Record</h2>
+      <p id="recordModalSubtitle">Update patient's medical record</p>
+
+      <form id="recordForm">
+        <div class="form-group full">
+          <label>Patient</label>
+          <input type="text" id="rPatientName" disabled style="background:#eef4fb; color:#0a2a44; font-weight:600;">
+        </div>
+
+        <div class="form-group">
+          <label>Record Type</label>
+          <select id="rType" style="width:100%; padding:0.9rem 1.3rem; border-radius:14px; border:1.5px solid #d9e9f5; font-size:0.95rem; background:#f9fcff; outline:none; color:#0a2a44;">
+            <option value="history">Medical History</option>
+            <option value="prescription">Prescription</option>
+            <option value="lab">Lab Report</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Date</label>
+          <input type="date" id="rDate" required>
+        </div>
+
+        <!-- Dynamic fields based on type -->
+        <div id="dynamicFields"></div>
+
+        <button type="submit" class="form-btn" style="margin-top:1.5rem;">
+          <i class="fas fa-plus-circle"></i> Add Record
+        </button>
+      </form>
+
+      <!-- Existing records preview -->
+      <div style="margin-top:2rem; padding-top:1.5rem; border-top:1px solid #eef4fb;">
+        <h4 style="color:#0a2a44; font-size:0.9rem; margin-bottom:0.8rem;">
+          <i class="fas fa-list"></i> Existing Records
+        </h4>
+        <div id="existingRecords" style="font-size:0.85rem; color:#5e7a99;"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

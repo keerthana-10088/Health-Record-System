@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login · Health Records System</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="top-bar">
+    <div class="logo-area">
+      <div class="logo-icon"><i class="fas fa-heartbeat"></i></div>
+      <div class="logo-text">
+        <h1>Health Records System</h1>
+        <span>Records · Secure · Compliant</span>
+      </div>
+    </div>
+    <div class="auth-buttons" id="authButtons"></div>
+  </header>
+
+  <div class="main-container">
+    <div class="auth-wrapper">
+      <div class="auth-box">
+        <div class="auth-header">
+          <div class="auth-icon"><i class="fas fa-sign-in-alt"></i></div>
+          <h2>Welcome back</h2>
+          <p>Login to access your health records</p>
+        </div>
+
+        <div class="role-selector">
+          <button type="button" class="role-option active" data-role="patient">
+            <i class="fas fa-user"></i> Patient
+          </button>
+          <button type="button" class="role-option" data-role="admin">
+            <i class="fas fa-user-shield"></i> Admin
+          </button>
+        </div>
+
+        <form id="loginForm">
+          <div class="form-group">
+            <label>Email address</label>
+            <input type="email" id="email" placeholder="you@example.com" required>
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="password" placeholder="Enter your password" required>
+          </div>
+          <button type="submit" class="form-btn">
+            <i class="fas fa-sign-in-alt"></i> Login
+          </button>
+        </form>
+
+        <div class="form-footer">
+          Don't have an account? <a href="signup.html">Sign up here</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">Health Records System · YGE Upskill</div>
+
+  <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    let selectedRole = 'patient';
+    const roleBtns = document.querySelectorAll('.role-option');
+
+    roleBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        roleBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedRole = btn.dataset.role;
+      });
+    });
+
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+
+      const result = login(email, password, selectedRole);
+      if (result.success) {
+        alert('✅ Login successful! Welcome, ' + result.user.fullname);
+        window.location.href = selectedRole === 'admin' ? 'admin.html' : 'user.html';
+      } else {
+        alert('❌ ' + result.message);
+      }
+    });
+
+    // Quick demo credentials hint on first load
+    window.addEventListener('load', () => {
+      if (!sessionStorage.getItem('loginHintShown')) {
+        sessionStorage.setItem('loginHintShown', '1');
+        setTimeout(() => {
+          alert(
+            '🔑 Demo Credentials:\n\n' +
+            'ADMIN:\n' +
+            '  Email: admin@yge.com\n' +
+            '  Password: admin123\n\n' +
+            'PATIENT (any of 5):\n' +
+            '  ravi@yge.com / 1234\n' +
+            '  priya@yge.com / 1234\n' +
+            '  arjun@yge.com / 1234\n' +
+            '  sneha@yge.com / 1234\n' +
+            '  vikram@yge.com / 1234'
+          );
+        }, 500);
+      }
+    });
+  </script>
+</body>
+</html>

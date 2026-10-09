@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient Dashboard · Health Records System</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="top-bar">
+    <div class="logo-area">
+      <div class="logo-icon"><i class="fas fa-heartbeat"></i></div>
+      <div class="logo-text">
+        <h1>Health Records System</h1>
+        <span>Patient Portal</span>
+      </div>
+    </div>
+    <nav class="nav-links">
+      <a href="user.html" class="active"><i class="fas fa-home"></i> Home</a>
+    </nav>
+    <div class="auth-buttons" id="authButtons"></div>
+  </header>
+
+  <div class="main-container">
+    <h1 class="page-title"><i class="fas fa-user-circle" style="color:#1e8e5c;"></i> Patient Dashboard</h1>
+    <p class="page-subtitle" id="welcomeLine">Welcome to your personal health records.</p>
+
+    <div class="dashboard-grid">
+      <div class="dash-card">
+        <div class="card-icon"><i class="fas fa-id-card"></i></div>
+        <h3>My Profile</h3>
+        <p>View your personal information and contact details.</p>
+        <button class="card-action-btn" id="profileBtn">
+          <i class="fas fa-eye"></i> View Profile
+        </button>
+      </div>
+
+      <div class="dash-card">
+        <div class="card-icon"><i class="fas fa-history"></i></div>
+        <h3>Medical History</h3>
+        <p>View your previous medical conditions and diagnoses.</p>
+        <button class="card-action-btn" id="historyBtn">
+          <i class="fas fa-notes-medical"></i> View History
+        </button>
+      </div>
+
+      <div class="dash-card">
+        <div class="card-icon"><i class="fas fa-prescription"></i></div>
+        <h3>Prescriptions</h3>
+        <p>View all your prescribed medicines and duration.</p>
+        <button class="card-action-btn" id="prescriptionBtn">
+          <i class="fas fa-pills"></i> View Prescriptions
+        </button>
+      </div>
+
+      <div class="dash-card">
+        <div class="card-icon"><i class="fas fa-flask"></i></div>
+        <h3>Lab Reports</h3>
+        <p>View your laboratory test reports and results.</p>
+        <button class="card-action-btn" id="labBtn">
+          <i class="fas fa-vial"></i> View Reports
+        </button>
+      </div>
+    </div>
+
+    <div class="section-block" id="detailSection" style="margin-top:3rem; display:none;">
+      <div class="section-header">
+        <h2 id="detailTitle"><i class="fas fa-info-circle"></i> Details</h2>
+      </div>
+      <div id="detailContent"></div>
+    </div>
+  </div>
+
+  <div class="footer">Health Records System</div>
+
+  <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/user.js"></script>
+</body>
+</html>

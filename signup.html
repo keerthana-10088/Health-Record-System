@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up · Health Records System</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="top-bar">
+    <div class="logo-area">
+      <div class="logo-icon"><i class="fas fa-heartbeat"></i></div>
+      <div class="logo-text">
+        <h1>Health Records System</h1>
+        <span>Records · Secure · Compliant</span>
+      </div>
+    </div>
+    <div class="auth-buttons" id="authButtons"></div>
+  </header>
+
+  <div class="main-container">
+    <div class="auth-wrapper">
+      <div class="auth-box">
+        <div class="auth-header">
+          <div class="auth-icon"><i class="fas fa-user-plus"></i></div>
+          <h2>Create your account</h2>
+          <p>Join Health Records System to manage and access health records</p>
+        </div>
+
+        <!-- Role selector -->
+        <div class="role-selector">
+          <button type="button" class="role-option active" data-role="patient">
+            <i class="fas fa-user"></i> Patient
+          </button>
+          <button type="button" class="role-option" data-role="admin">
+            <i class="fas fa-user-shield"></i> Admin
+          </button>
+        </div>
+
+        <form id="signupForm">
+          <div class="form-group">
+            <label>Full name</label>
+            <input type="text" id="fullname" placeholder="e.g. Ravi Kumar" required>
+          </div>
+          <div class="form-group">
+            <label>Email address</label>
+            <input type="email" id="email" placeholder="you@example.com" required>
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="password" placeholder="Minimum 4 characters" minlength="4" required>
+          </div>
+
+          <!-- Extra fields for patients -->
+          <div id="patientExtra">
+            <div class="form-group">
+              <label>Age</label>
+              <input type="number" id="age" placeholder="e.g. 30" min="1" max="120">
+            </div>
+            <div class="form-group">
+              <label>Gender</label>
+              <input type="text" id="gender" placeholder="Male / Female / Other">
+            </div>
+            <div class="form-group">
+              <label>Phone</label>
+              <input type="tel" id="phone" placeholder="10-digit mobile number">
+            </div>
+          </div>
+
+          <button type="submit" class="form-btn">
+            <i class="fas fa-check-circle"></i> Create Account
+          </button>
+        </form>
+
+        <div class="form-footer">
+          Already have an account? <a href="login.html">Login here</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">Health Records System · YGE Upskill</div>
+
+  <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    let selectedRole = 'patient';
+    const roleBtns = document.querySelectorAll('.role-option');
+    const patientExtra = document.getElementById('patientExtra');
+
+    roleBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        roleBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedRole = btn.dataset.role;
+        patientExtra.style.display = selectedRole === 'patient' ? 'block' : 'none';
+      });
+    });
+
+    document.getElementById('signupForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const fullname = document.getElementById('fullname').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+
+      const extra = {
+        age: document.getElementById('age')?.value || '',
+        gender: document.getElementById('gender')?.value || '',
+        phone: document.getElementById('phone')?.value || ''
+      };
+
+      const result = signup(fullname, email, password, selectedRole, extra);
+      if (result.success) {
+        alert('✅ ' + result.message);
+        window.location.href = 'login.html';
+      } else {
+        alert('❌ ' + result.message);
+      }
+    });
+  </script>
+</body>
+</html>
